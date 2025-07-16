@@ -158,3 +158,7 @@ def login():
 def logout():
   logout_user()
   return redirect("/login")
+
+if not app.debug:
+    with app.app_context():
+        db.create_all()
