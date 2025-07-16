@@ -27,8 +27,8 @@ if raw_db_url is None:
     raise RuntimeError("DATABASE_URL is not set")
 
 # psycopg3用に明示的に変換
-if raw_db_url.startswith("postgres://"):
-    db_url = raw_db_url.replace("postgres://", "postgresql+psycopg://", 1)
+if raw_db_url.startswith("postgresql://"):
+    db_url = raw_db_url.replace("postgresql://", "postgresql+psycopg://", 1)
 else:
     db_url = raw_db_url
 
