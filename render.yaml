@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: my-flask-app
+    runtime: python
+    buildCommand: |
+      pip install -r requirements.txt
+      flask db upgrade
+    startCommand: gunicorn myapp:app
+    envVars:
+      - key: FLASK_APP
+        value: myapp.py
+      - key: FLASK_ENV
+        value: production
