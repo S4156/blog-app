@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+  {% block title %}気づきブログ{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-4">
+      <h2>気づきブログ</h2>
+      <p>日々の気づきを綴ります</p>
+    </div>
+    <div class="row row-cols-3 g-4">
+      {% for post in posts %}
+      <div class="col">
+        <div class="card w-auto h-100">
+          <img src="{{ url_for("static",filename="img/"+post.img_name) }}" class="card-img-top" alt="ブログ画像">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">{{ post.body[:10] }}</p>
+            <p>投稿日:{{ post.created_at }}</p>
+            <a href="/{{post.id}}/readMore" role="button" class="btn btn-primary">詳細</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>  
+
+{% endblock %}
