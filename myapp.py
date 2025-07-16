@@ -21,9 +21,18 @@ app.config["SECRET_KEY"] = (
     os.environ.get("SECRET_KEY") if not app.debug else os.urandom(24)
 )
 
-raw_db_url=os.environ.get("DATABASE_URL")
-db_url=raw_db_url.replace("postgres://","postgresql+psycopg://")
-app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+# DATABASE_URL は常に変換（app.debugに依存しない）
+raw_db_url = os.environ.get("DATABASE_URL")
+if raw_db_url is None:
+    raise RuntimeError("DATABASE_URL is not set")
+
+# psycopg3用に明示的に変換
+if raw_db_url.startswith("postgres://"):
+    db_url = raw_db_url.replace("postgres://", "postgresql+psycopg://", 1)
+else:
+    db_url = raw_db_url
+
+app.config["SQLALCHEMY_DATABASE_URI"] = db_url
 print(f"DB URI: {app.config['SQLALCHEMY_DATABASE_URI']}")
 db=SQLAlchemy(app)
 migrate=Migrate(app,db)
