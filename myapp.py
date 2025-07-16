@@ -17,11 +17,9 @@ app = Flask(__name__)
 login_manager=LoginManager()
 login_manager.init_app(app)
 
-if app.debug:
-  #①いったんランダム。本番環境で書き換える
-  app.config["SECRET_KEY"]=os.urandom(24)
-else:
-  app.config["SECRET_KEY"]=os.environ.get("SECRET_KEY")
+app.config["SECRET_KEY"] = (
+    os.environ.get("SECRET_KEY") if not app.debug else os.urandom(24)
+)
 
 raw_db_url=os.environ.get("DATABASE_URL")
 db_url=raw_db_url.replace("postgres://","postgresql+psycopg://")
