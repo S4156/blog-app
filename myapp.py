@@ -26,7 +26,7 @@ else:
 raw_db_url=os.environ.get("DATABASE_URL")
 db_url=raw_db_url.replace("postgres://","postgresql+psycopg://")
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
-
+print(f"DB URI: {app.config['SQLALCHEMY_DATABASE_URI']}")
 db=SQLAlchemy(app)
 migrate=Migrate(app,db)
 
