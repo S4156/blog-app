@@ -8,6 +8,7 @@ import pytz
 import os
 from PIL import Image, UnidentifiedImageError
 from dotenv import load_dotenv
+import psycopg
 
 load_dotenv()  # .envファイルを読み込む
 
