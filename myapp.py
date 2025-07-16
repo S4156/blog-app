@@ -8,6 +8,7 @@ import pytz
 import os
 from PIL import Image, UnidentifiedImageError
 from dotenv import load_dotenv
+import psycopg
 
 load_dotenv()  # .envファイルを読み込む
 
@@ -22,10 +23,12 @@ if app.debug:
   app.config["SECRET_KEY"]=os.urandom(24)
 else:
   app.config["SECRET_KEY"]=os.environ.get("SECRET_KEY")
-  SQLALCHEMY_DATABASE_URI=os.environ.get("DATABASE_URL").replace("postgres://","postgresql+psycopg://")
-db=SQLAlchemy()
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
-db.init_app(app)
+
+raw_db_url=os.environ.get("DATABASE_URL")
+db_url=raw_db_url.replace("postgres://","postgresql+psycopg://")
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+
+db=SQLAlchemy(app)
 migrate=Migrate(app,db)
 
 class Post(db.Model):
